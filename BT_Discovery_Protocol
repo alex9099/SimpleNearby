@@ -1,0 +1,57 @@
+Example device names when on "receive" mode:
+
+
+xx:xx:xx:A7:6B:16
+
+IzdJOVL8n14AAAAAAAAAIyLe0ocONEH3GtJSL-NuRXJZEVRlbGVmb25lIGRlIERpb2dv
+IzdJOVL8n14AAAAAAAAAIyKp4M61YgF3ZRkxBoJ60L_ZEVRlbGVmb25lIGRlIERpb2dv
+
+
+xx:xx:xx:3C:07:8B
+
+IzlRSkT8n14AAAAAAAAAFwLgZfG9UTrDaojDIMFJjCtcBU1pIEEx
+IzlRSkT8n14AAAAAAAAAFwIO4-okxaSu3o5taaa7cYF7BU1pIEEx
+IzlRSkT8n14AAAAAAAAAFwLikXM7S-M1GDWPisM-4C5XBU1pIEEx
+
+
+Decode with URLBase64
+
+----------
+
+byte 0 :        1 BYTE 3bit version + 5 bit PCP
+byte 1-5 :      4 bytes endpoint ID
+byte 6-9 :      3 bytes service ID hash
+byte 10 :       1 byte WebRTC state
+byte 11-16:     6 bytes reserved
+byte 17 :       1 byte lenght endpoint info
+byte 18-32:     remaining endpoint info
+byte 33:        Device name length
+
+-----------
+
+From connections/implementation/pcp.h on google's nearby repo:
+
+// The PreConnectionProtocol (PCP) defines the combinations of interactions
+// between the techniques (ultrasound audio, Bluetooth device names, BLE
+// advertisements) used for offline Advertisement + Discovery, and identifies
+// the steps to go through on each device.
+
+PCP values:
+  kUnknown = 0,
+  kP2pStar = 1,
+  kP2pCluster = 2,
+  kP2pPointToPoint = 3
+
+PCP is not clear, in case of google's implementation of nearby share for files seems to always be P2P, other applications may use other modes
+
+-----------
+
+The endpoint ID and Service ID doesn't seem to change and are tied to the device
+
+-----------
+
+WebRTC might be for implementations where both devices are already on the same network, in this case, 0 because the phones were not connected to a network
+
+-----------
+
+34th byte is the length of the device name
