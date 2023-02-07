@@ -1,18 +1,22 @@
 from base64 import urlsafe_b64decode
 from base64 import urlsafe_b64encode
+from bitstring import BitArray
 
 
 #s = 'IzdJOVL8n14AAAAAAAAAIyKp4M61YgF3ZRkxBoJ60L_ZEVRlbGVmb25lIGRlIERpb2dv'
 #s = 'IzdJOVL8n14AAAAAAAAAIyLe0ocONEH3GtJSL-NuRXJZEVRlbGVmb25lIGRlIERpb2dv'
-s = 'IzlRSkT8n14AAAAAAAAAFwLgZfG9UTrDaojDIMFJjCtcBU1pIEEx'
-#s = 'IzlRSkT8n14AAAAAAAAAFwLikXM7S-M1GDWPisM-4C5XBU1pIEEx'
+#s = 'IzlRSkT8n14AAAAAAAAAFwLgZfG9UTrDaojDIMFJjCtcBU1pIEEx'
+s = 'IzlRSkT8n14AAAAAAAAAFwLikXM7S-M1GDWPisM-4C5XBU1pIEEx'
 #s = urlsafe_b64encode(s)
 # Using base64.urlsafe_b64decode() method
 gfg = urlsafe_b64decode(s)
 count = 0
 namelength = 0
 devicename = ""
-print(gfg)
+endpointID = ""
+serviceID = b''
+print('\n', 'Base64 decoded byte array: ',gfg, '\n')
+
 bytestr = bytearray(gfg)
 
 for i, bite in enumerate(bytestr):
@@ -20,17 +24,28 @@ for i, bite in enumerate(bytestr):
     if (i == 0):
         lowfive = bite & 0b00011111
         highthree = bite >> 5
-        print ( "Unknown: ", lowfive == 0 ) 
-        print ( "Cluster: ", lowfive == 1 ) 
-        print ( "Star: ", lowfive == 2 ) 
-        print ( "P2P: ", lowfive == 3 ) 
+
+        #Mode: 5 least significant bits
+        if lowfive == 0:
+            print ("Unknown Mode")
+        elif lowfive == 1:
+            print ("Cluster Mode")
+        elif lowfive == 2:
+            print ("Star Mode")
+        elif lowfive == 3:
+            print ("P2P Mode")
+
+        #Version: 3 most significant bits          
         print("Version", ":",f'{highthree:03b}')
     
-    #Endpoint
+
+    #Endpoint (supposed to be a string)
     if (i == 1):
         print ("Endpoint ID:", end = " ")
     if (i >=1 and i <= 4):
-        print (bite, end = " ")
+        endpointID+= chr(bite)
+        if (i==4):
+            print (endpointID, end = " ")
 
 
     #Service ID hash
@@ -39,6 +54,13 @@ for i, bite in enumerate(bytestr):
         print ("Service ID Hash:", end = " ")
     if (i >=5 and i <= 7):
         print (bite, end = " ")
+        serviceID+= bite.to_bytes(1, 'little')
+        if (i == 7):
+            pass
+            #showing service i
+            #print ("{:08b}".format(int(serviceID.hex(),16)), end = " ")
+
+
 
     if (i == 8):
         print()
@@ -72,9 +94,8 @@ for i, bite in enumerate(bytestr):
         if (i == 16):
             print ("Unknown Bytes:")
         count = count + 1
-        print(i, ":", bite)
+        print(i, ": ", "{:08b}".format(bite) )
     
-
 
  #bytes after length (defined in byte 15) are for UWB, not relevant for current implementation TODO
 
