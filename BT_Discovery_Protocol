@@ -46,7 +46,9 @@ PCP is not clear, in case of google's implementation of nearby share for files s
 
 -----------
 
-The endpoint ID and Service ID doesn't seem to change and are tied to the device
+Endpoint ID seems to change on every boot or when disabling and reenabling nearby share
+
+-----------
 
 Service ID appears to be attached to the application using the nearby protocol, in case of android's nearby share, this value is FC 9F 5E
 core.h states:
