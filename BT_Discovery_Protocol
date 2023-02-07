@@ -48,9 +48,25 @@ PCP is not clear, in case of google's implementation of nearby share for files s
 
 The endpoint ID and Service ID doesn't seem to change and are tied to the device
 
+Service ID appears to be attached to the application using the nearby protocol, in case of android's nearby share, this value is FC 9F 5E
+core.h states:
+
+// service_id - An identifier to advertise your app to other endpoints.
+  //              This can be an arbitrary string, so long as it uniquely
+  //              identifies your service. A good default is to use your
+  //              app's package name.
+
+This should be the package name, but trying to sha256 either the files app (which seems to be what provides the implementation of file transfer over the nearby protocol) or the nearby package from play services doesn't return this
+
+For this simple implementation, the service ID should not be relevant as we would be accepting any stream of data
+
 -----------
 
 WebRTC might be for implementations where both devices are already on the same network, in this case, 0 because the phones were not connected to a network
+
+-----------
+
+Endpoint info may have some sort of authentication/encryption keys, couldn't find any reference to it yet
 
 -----------
 
