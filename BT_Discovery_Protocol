@@ -60,9 +60,9 @@ core.h states:
   //              identifies your service. A good default is to use your
   //              app's package name.
 
-This should be the package name, but trying to sha256 either the files app (which seems to be what provides the implementation of file transfer over the nearby protocol) or the nearby package from play services doesn't return this
+The service ID is for "NearbySharing" -> fc9f5ed42c8a5e9e94684076ef3bf938a809c60ad354992b0435aebbdc58b97b
 
-For this simple implementation, the service ID should not be relevant as we would be accepting any stream of data
+As we are implementing for Nearby Share, the service ID should match this hash
 
 -----------
 
@@ -75,3 +75,8 @@ Endpoint info may have some sort of authentication/encryption keys, couldn't fin
 -----------
 
 34th byte is the length of the device name
+
+-----------
+
+Bluetooth Service ID for nearby (or nearby share)
+a82efa21-ae5c-3dde-9bbc-f16da7b16c5a
