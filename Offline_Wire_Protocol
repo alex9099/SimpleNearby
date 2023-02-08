@@ -1,0 +1,47 @@
+This is the protocol used to communicate with the device
+See offline_wire_formats.proto 
+
+As protobuf seems way too bloated for what we want, let's try to make a simpler implementation
+
+According to the docs ( https://protobuf.dev/programming-guides/encoding/ ) protobuf encodes like so:
+
+Varint:
+    the MSB of each byte indicates if the next byte is still part of the same value (continuation bit), 
+    for instance 11010101 001010101 10001000 would mean that the two bytes are part of the same value, the third byte is already part of some other value
+
+    in other words, if the MSB is 0, we are starting a new value 
+
+    To interpret integers, this example from the docs is great:
+
+    10010110 00000001        // Original inputs.
+    0010110  0000001        // Drop continuation bits.
+    0000001  0010110        // Put into little-endian order.
+    10010110                // Concatenate.
+    128 + 16 + 4 + 2 = 150  // Interpret as integer.
+
+    We don't need to care about signed ints as those don't seem to be used
+
+    Bools and enums are just like ints, but their value is either 0 or 1. Seems like one full byte would be used for those
+
+    I32 and I64 are not used as well, but it's similar to varint with the difference that there will always be 4 or 8 bytes regardless of the value 
+
+Wire types:
+    There are 6 wire types:
+        0 - varint
+        1 - I64 (fixed length - 8 bytes)
+        2 - LEN (variable length - strings, bytes and so on)
+        3 and 4 - {S, E}GROUP - Group start and end, deprecated
+        5 - I32 (fixed length - 4 bytes)
+
+
+Message type:
+    Taking the MSB (continuation bit) out we get 7 bits, the last three (LSB side) are the "wire type", the first five (MSB side) indicate the field number 
+
+
+"length delimited records" (aka strings):
+    These have the first byte indicating their type, second being a varint with the size 
+ and the remaining (up to the length indicated) are the content, the content doesn't have the continuation bit
+
+Submessages:
+    We have a ton of these, messages inside messages, these are represented by type LEN (2) followed by a varint with the size of the submessage
+
