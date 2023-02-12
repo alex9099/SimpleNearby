@@ -45,3 +45,8 @@ Message type:
 Submessages:
     We have a ton of these, messages inside messages, these are represented by type LEN (2) followed by a varint with the size of the submessage
 
+Some nice writing about this
+
+https://carlmastrangelo.com/blog/lets-make-a-varint
+
+https://levelup.gitconnected.com/protobufs-explained-17ed6ba52076
