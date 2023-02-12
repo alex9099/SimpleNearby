@@ -7,7 +7,8 @@ from bitstring import BitArray
 #s = 'IzdJOVL8n14AAAAAAAAAIyLe0ocONEH3GtJSL-NuRXJZEVRlbGVmb25lIGRlIERpb2dv'
 #s = 'IzlRSkT8n14AAAAAAAAAFwLgZfG9UTrDaojDIMFJjCtcBU1pIEEx'
 s = 'IzlRSkT8n14AAAAAAAAAFwLikXM7S-M1GDWPisM-4C5XBU1pIEEx'
-#s = urlsafe_b64encode(s)
+#s = 'I0xWT1n8n14AAAAAAAAAFwKcYlprqvQFkU-aSqQ7R4dwBU1pIEEx'
+
 # Using base64.urlsafe_b64decode() method
 gfg = urlsafe_b64decode(s)
 count = 0
@@ -57,7 +58,7 @@ for i, bite in enumerate(bytestr):
         serviceID+= bite.to_bytes(1, 'little')
         if (i == 7):
             pass
-            #showing service i
+            #showing service in hex
             #print ("{:08b}".format(int(serviceID.hex(),16)), end = " ")
 
 
@@ -97,6 +98,6 @@ for i, bite in enumerate(bytestr):
         print(i, ": ", "{:08b}".format(bite) )
     
 
- #bytes after length (defined in byte 15) are for UWB, not relevant for current implementation TODO
+ #TODO bytes after length (defined in byte 15) are for UWB (ultra wide band), not relevant for current implementation
 
  
