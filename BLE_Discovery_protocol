@@ -1,0 +1,19 @@
+There is a differention between listening to everyone and sharing just to contacts/own devices, as the latter requires a google account, I won't focus on it for now
+
+When sharing the service UUID 0000fe2c-0000-1000-8000-00805f9b34fb is used
+When ready to receive the service UUID 0000fef3-0000-1000-8000-00805f9b34fb is used
+
+The format for sharing with everyone is like with regular bluetooth a plaintext string, some examples
+
+RSBCQBACAgIDAAAew2cTAIA
+RSABCBACAJCDAAClLHA5AII
+RSCIEBECEAADAACEu4ZoAIM
+RSAAIJAKAEADEAA6cqxvAIU
+RWAIABQCAAADhAB8kQ7gAIY
+RSAIABACBAIDAIFM-t_LAIg
+RSgAABAGAQADhABMM0wxAIk
+RSAAgBICAAAXEAC8H_4TAIs
+
+VTAQABACAAADAAjYTFCqAIM (from another phone)
+
+To get this string as well as the devices receiving/sharing, the script ble_get_devices.py can be used
