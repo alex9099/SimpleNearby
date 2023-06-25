@@ -8,12 +8,21 @@ The format for sharing with everyone is like with regular bluetooth a plaintext 
 RSBCQBACAgIDAAAew2cTAIA
 RSABCBACAJCDAAClLHA5AII
 RSCIEBECEAADAACEu4ZoAIM
-RSAAIJAKAEADEAA6cqxvAIU
-RWAIABQCAAADhAB8kQ7gAIY
-RSAIABACBAIDAIFM-t_LAIg
-RSgAABAGAQADhABMM0wxAIk
-RSAAgBICAAAXEAC8H_4TAIs
 
 VTAQABACAAADAAjYTFCqAIM (from another phone)
 
 To get this string as well as the devices receiving/sharing, the script ble_get_devices.py can be used
+
+Not entirely sure what that string is as the actual information is given by the characteristic 00000000-0000-3000-8000-000000000000 of the 0000fef3-0000-1000-8000-00805f9b34fb service
+
+Here's some examples
+48 FC 9F 5E 00 00 00 28 23 FC 9F 5E 44 4B 45 46 17 22 12 75 BD EC 4D A6 1F 16 F6 22 68 D2 C2 B5 76 67 05 4D 69 20 41 31 18 F0 E4 3C 07 8B 00 00 14 BF
+48 FC 9F 5E 00 00 00 28 23 FC 9F 5E 39 31 56 34 17 22 24 4F 2E E4 06 BD 5C AC E1 4E 7F CC 6F C2 8B 8B 05 4D 69 20 41 31 18 F0 E4 3C 07 8B 00 00 66 F7
+
+bytes 2 to 4 and 10 to 12 seem to be the service ID (FC 9F 5E) 
+bytes 13 to 16 are the endpoint ID (39 31 56 34)
+byte 35 is the device name size (05)
+bytes 36 to 40 are the device name (4D 69 20 41 31 / "Mi A1")
+bytes 41 to 46 are the mac address (18 F0 E4 3C 07 8B)
+
+Still unsure but seems like ble is only used for discovery the communication is made using regular bluetooth (available on the advertised mac address)
